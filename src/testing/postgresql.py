@@ -67,10 +67,8 @@ class Postgresql(Database):
     def url(self, **kwargs):
         params = self.dsn(**kwargs)
 
-        url = ('postgresql://%s@%s:%d/%s' %
+        return ('postgresql://%s@%s:%d/%s' %
                (params['user'], params['host'], params['port'], params['database']))
-
-        return url
 
     def get_data_directory(self):
         return os.path.join(self.base_dir, 'data')
@@ -132,8 +130,7 @@ skipIfNotFound = skipIfNotInstalled = PostgresqlSkipIfNotInstalledDecorator()
 
 
 def find_program(name, subdirs):
-    path = get_path_of(name)
-    if path:
+    if path := get_path_of(name):
         return path
 
     for base_dir in SEARCH_PATHS:
